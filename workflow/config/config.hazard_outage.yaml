@@ -1,6 +1,6 @@
 # PyPSA-USA Default Configuration File for developing and testing county transmission network from Reeds
 run:
-  name: "Default" # use this to keep track of runs with different settings
+  name: "SoCal" # use this to keep track of runs with different settings
   disable_progressbar: false # set to true to disable the progressbar
   shared_resources: false # set to true to share the default resources across runs
   shared_cutouts: true # set to true to share the default cutout(s) across runs
@@ -9,22 +9,23 @@ run:
 # docs :
 scenario:
   interconnect: [western] #"usa|texas|western|eastern"
-  clusters: [33]
-  simpl: [75]
+  clusters: [all]
+  simpl: "" # for no simplification
   opts: [REM-3h]
   ll: [v1.0]
   sector: "" # G
-  planning_horizons: [2030, 2040, 2050]    #(2018-2023, 2030, 2040, 2050)
+  planning_horizons: [2030]    #(2018-2023, 2030, 2040, 2050)
 foresight:  'perfect' # myopic, perfect
 
 model_topology:
-  transmission_network: 'reeds' # [reeds, tamu]
-  topological_boundaries: 'reeds_zone' # [county, reeds_zone, state]
+  transmission_network: 'tamu' # [reeds, tamu]
+  topological_boundaries: 'county' # [county, reeds_zone, state]
   interface_transmission_limits: false
   include: # mixed zone types not supported
-    # reeds_zone: []
+    reeds_zone: ['p10', 'p11'] # Southern California
     # reeds_state: ['CA']
     # reeds_ba: []
+    # county: ['p06059'] # Orange County, CA
   aggregate: # eligible keys: [reeds_zone, trans_reg]
     # trans_grp: []
     # reeds_zone: []
@@ -207,8 +208,8 @@ solving:
 
 
   solver:
-    name: gurobi
-    options: gurobi-default
+    name: highs
+    options: highs-default
 
   solver_options:
     highs-default:

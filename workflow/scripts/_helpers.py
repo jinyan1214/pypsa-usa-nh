@@ -387,10 +387,17 @@ def mock_snakemake(rulename, **wildcards):
             break
     kwargs = dict(rerun_triggers=[]) if parse(sm.__version__) > Version("7.7.0") else {}
     workflow = sm.Workflow(snakefile, overwrite_configfiles=[], **kwargs)
+    
+    with open(script_dir.parent/'config'/'config.hazard_outage.yaml') as f:
+        config_yaml = yaml.safe_load(f)
+    workflow.config.update(config_yaml)
+
     workflow.include(snakefile)
     workflow.global_resources = {}
     rule = workflow.get_rule(rulename)
     dag = sm.dag.DAG(workflow, rules=[rule])
+    dag.update_output_index()
+    dag.postprocess()
     wc = Dict(wildcards)
     job = sm.jobs.Job(rule, dag, wc)
 

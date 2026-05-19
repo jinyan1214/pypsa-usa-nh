@@ -122,7 +122,7 @@ def distribute_clusters(
 
     n_subnetwork_nodes = n.buses.groupby(["country", "sub_network"]).size()
     assert n_clusters >= len(n_subnetwork_nodes) and n_clusters <= n_subnetwork_nodes.sum(), (
-        f"Number of clusters must be {len(n_subnetwork_nodes)} <= n_clusters <= {n_subnetwork_nodes.sum()} for this selection of countries."
+        f"Number of clusters {n_clusters} must be {len(n_subnetwork_nodes)} <= n_clusters <= {n_subnetwork_nodes.sum()} for this selection of countries."
     )
 
     if focus_weights is not None:

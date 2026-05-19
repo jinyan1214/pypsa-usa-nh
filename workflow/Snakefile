@@ -243,6 +243,14 @@ rule data_model:
             **config["scenario"],
         ),
 
+rule data_model_EQ:
+    input:
+        expand(
+            RESOURCES
+            + "{interconnect}/elec_s{simpl}_c{clusters}_ec_l{ll}_{opts}_{sector}.nc",
+            **config["scenario"],
+        ),
+
 
 # Create DAG with-
 # snakemake --rulegraph all | sed -n "/digraph/,\$p" | dot -Tpng -o repo_data/dag.jpg
